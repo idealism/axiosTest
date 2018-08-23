@@ -3,7 +3,9 @@
     <h1>{{ msg }}</h1>
     <input v-model="userId" />
     <h2>{{ userName }}</h2>
+    <button v-on:click="promiseMethod">点击我</button>
   </div>
+  
 </template>
 
 <script>
@@ -20,6 +22,27 @@ export default {
   props: {
     msg: String
   },
+  methods:{
+      promiseMethod:function(){
+        let promise1 = new Promise(function(resolve,reject){
+            console.log('Promise1');
+             resolve();
+        });
+
+        let promise2 = new Promise(function(resolve,reject){
+            console.log('Promise2');
+             resolve();
+        });
+
+       let promise = Promise.all([promise1,promise2]);  //race()
+
+        promise.then(function(){
+            console.log('resolved');
+        });
+
+        console.log('Hi!');
+      }
+  },
   watch:{
     userId:function(newValue){
       let _this = this;
@@ -30,6 +53,8 @@ export default {
             _this.userName = element.userName;
           }
         });
+      }).catch(function(error){
+        console.log(error.message);
       });
     }
   }
